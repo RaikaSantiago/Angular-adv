@@ -7,9 +7,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProgessComponent implements OnInit {
 
-  constructor() { }
+  progreso1:number = 60;
+  progreso2:number = 30;
+  btnClass2:string = 'btn btn-info';
 
-  ngOnInit(): void {
+  constructor(){
+
   }
 
+  ngOnInit(){
+
+  }
+
+  get porcentaje1(){
+    return `${this.progreso1}%`;
+  }
+
+  get porcentaje2(){
+    return `${this.progreso2}%`;
+  }
+
+  
 }
