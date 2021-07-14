@@ -18,7 +18,7 @@ export class DonaComponent implements OnInit {
    ];
 
    constructor() { 
-     console.log(this.c);
+  
      
    }
  
