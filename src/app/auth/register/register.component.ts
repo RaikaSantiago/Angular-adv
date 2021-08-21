@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UsuarioService } from '../../services/usuario.service';
 import { AbstractControl, FormBuilder, FormControl, 
          FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
@@ -34,7 +35,8 @@ export class RegisterComponent implements OnInit {
   });
 
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+              private usuarioService: UsuarioService) { }
 
   ngOnInit(): void {
   }
@@ -42,12 +44,13 @@ export class RegisterComponent implements OnInit {
     this.formSubmitted = true;
     console.log(this.registerForm);
     
-    if (this.registerForm.valid) {
-      console.log('Guardando');
-    }else{
-      console.log('Formulario no es correcto');
-      
+    if (this.registerForm.invalid) {
+      return;
     }
+    /*Realizar el posteo */
+    this.usuarioService.crearUsuario( this.registerForm.value).toPromise().then(res => {
+      console.log('usuario creado', res);
+    },err => console.log(err));
   }
   campoNoValido( campo:string ):boolean{
 
