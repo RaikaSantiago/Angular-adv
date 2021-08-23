@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from '../../services/usuario.service';
 import { AbstractControl, FormBuilder, FormControl, 
          FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
+import { RegistroModel } from 'src/app/models/usuario.model';
+import { Router } from '@angular/router';
 
 export const fnpasswordsIguales: ValidatorFn = (control: AbstractControl):ValidationErrors | null => {
  
@@ -35,22 +38,38 @@ export class RegisterComponent implements OnInit {
   });
 
 
-  constructor(private fb: FormBuilder,
-              private usuarioService: UsuarioService) { }
+  constructor(private usuarioService: UsuarioService,
+              private router:Router) { }
 
   ngOnInit(): void {
   }
   crearUsuario(){
     this.formSubmitted = true;
-    console.log(this.registerForm);
-    
+
     if (this.registerForm.invalid) {
       return;
     }
     /*Realizar el posteo */
-    this.usuarioService.crearUsuario( this.registerForm.value).toPromise().then(res => {
-      console.log('usuario creado', res);
-    },err => console.log(err));
+    this.usuarioService.crearUsuario( this.registerForm.value).toPromise().then((res:RegistroModel) => {
+     
+      if (res !== null) {
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Te has registrado exitosamente',
+          showConfirmButton: false,
+          timer: 2500
+        });
+          localStorage.setItem('token', res.token);
+          localStorage.setItem('uid',res.usuario.uid);
+          this.router.navigateByUrl('/');
+      }
+      
+        
+    },err => {
+      /*Mensaje error */
+      Swal.fire('Error', err.error.msg, 'error');
+    });
   }
   campoNoValido( campo:string ):boolean{
 

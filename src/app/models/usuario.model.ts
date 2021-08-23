@@ -9,3 +9,14 @@ export  class Usuario {
         public uid?: string,
     ){}
 }
+
+export class RegistroModel {
+
+    constructor(
+        public ok: boolean,
+        public token: string,
+        public usuario: Usuario,
+    ){
+
+    }
+}

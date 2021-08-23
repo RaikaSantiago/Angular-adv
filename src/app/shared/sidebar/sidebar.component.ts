@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { SidebarService } from '../../services/sidebar.service';
 
 @Component({
@@ -10,11 +11,14 @@ import { SidebarService } from '../../services/sidebar.service';
 export class SidebarComponent implements OnInit {
 
   menuItems:any[];
-  constructor(private sidebarService:SidebarService) { 
+  constructor(private sidebarService:SidebarService,
+              private router:Router) { 
     this.menuItems = this.sidebarService.menu;
   }
 
   ngOnInit(): void {
   }
-
+  logout(){
+    this.router.navigateByUrl('login');
+  }
 }
