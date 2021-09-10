@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { LoginFormModel } from 'src/app/models/login.model';
 import Swal from 'sweetalert2';
 import { UsuarioService } from '../../services/usuario.service';
+declare var gapi:any;
 
 @Component({
   selector: 'app-login',
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit {
               private usuarioService: UsuarioService) { }
 
   ngOnInit(): void {
+    this.renderButton();
   }
 
   login(){
@@ -32,8 +34,6 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-
-    
 
     this.usuarioService.login(this.loginForm.value).toPromise().then( (res:any) =>{
 
@@ -54,9 +54,7 @@ export class LoginComponent implements OnInit {
        /*Mensaje error */
        Swal.fire('Error', err.error.msg, 'error');
     });
-    console.log(this.loginForm.value);
-    
-
+ 
     
   }
 
@@ -66,6 +64,38 @@ export class LoginComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  // onSignIn(googleUser:any) {
+  //   var profile = googleUser.getBasicProfile();
+  //   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  //   console.log('Name: ' + profile.getName());
+  //   console.log('Image URL: ' + profile.getImageUrl());
+  //   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+  // }
+
+  onSuccess(googleUser:any){
+    console.log('google perfil', googleUser.getBasicProfile());
+    var id_token = googleUser.getAuthResponse().id_token;
+    console.log('Token:',id_token);
+    
+  }
+  renderButton(){
+    gapi.signin2.render('my-signin2',{
+      'scope': 'profile email',
+      'width': 240,
+      'height':50,
+      'longtitle': true,
+      'theme': 'dark',
+      'onsuccess': this.onSuccess
+    });
+  }
+
+  signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
   }
 
 }
