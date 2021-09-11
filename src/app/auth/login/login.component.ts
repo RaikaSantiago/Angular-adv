@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   public formSubmitted = false;
   public auth2:any;
   public loginForm: FormGroup = new FormGroup({
-    email: new FormControl(localStorage.getItem('email') || '', [Validators.required, Validators.email]),
+    email: new FormControl(localStorage.getItem('email') && localStorage.getItem('remember')  || '', [Validators.required, Validators.email]),
     password: new FormControl ('', Validators.required),
     remember: new FormControl (localStorage.getItem('remember') || false )
   });
@@ -66,20 +66,6 @@ export class LoginComponent implements OnInit {
     return false;
   }
 
-  // onSignIn(googleUser:any) {
-  //   var profile = googleUser.getBasicProfile();
-  //   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-  //   console.log('Name: ' + profile.getName());
-  //   console.log('Image URL: ' + profile.getImageUrl());
-  //   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-  // }
-
-  // onSuccess(googleUser:any){
-  //   console.log('google perfil', googleUser.getBasicProfile());
-  //   var id_token = googleUser.getAuthResponse().id_token;
-  //   console.log('Token:',id_token);
-    
-  // }
   renderButton(){
     gapi.signin2.render('my-signin2',{
       'scope': 'profile email',
@@ -91,17 +77,10 @@ export class LoginComponent implements OnInit {
     this.startApp();
   }
 
-  startApp() {
-    gapi.load('auth2', () => {
-      // Retrieve the singleton for the GoogleAuth library and set up the client.
-      this.auth2 = gapi.auth2.init({
-        client_id: '557293408583-huol63oiu3vsq1hh768jtoqh7bde7pgn.apps.googleusercontent.com',
-        cookiepolicy: 'single_host_origin',
-        // Request scopes in addition to 'profile' and 'email'
-        //scope: 'additional_scope'
-      });
-      this.attachSignin(document.getElementById('my-signin2'));
-    });
+  async startApp() {
+    await this.usuarioService.googleInit();
+    this.auth2 = this.usuarioService.auth2;
+    this.attachSignin(document.getElementById('my-signin2'));
   };
 
   attachSignin(element:any) {
@@ -111,6 +90,9 @@ export class LoginComponent implements OnInit {
               var id_token = googleUser.getAuthResponse().id_token;
               this.usuarioService.loginGoogle(id_token).subscribe((res:any) => {
                 localStorage.setItem('token', res.token);
+                localStorage.setItem('email', googleUser.Ws.Ht);
+                localStorage.setItem('nombre', googleUser.Ws.Qe);
+                
                 this.ngZone.run(() => {
                   /*Navergar al Dashboard */
                   this.router.navigateByUrl('/');
@@ -119,13 +101,6 @@ export class LoginComponent implements OnInit {
         }, function(error) {
           alert(JSON.stringify(error, undefined, 2));
         });
-  }
-
-  signOut() {
-    var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-      console.log('User signed out.');
-    });
   }
 
 }

@@ -191,19 +191,19 @@
                                 <div class="dw-user-box">
                                     <div class="u-img"><img src="./assets/images/users/1.jpg" alt="user"></div>
                                     <div class="u-text">
-                                        <h4>Steave Jobs</h4>
-                                        <p class="text-muted">varun@gmail.com</p><a href="pages-profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a>
+                                        <h4>{{nombrePerfil | titlecase}}</h4>
+                                        <p class="text-muted">{{emailPerfil}}</p><a href="pages-profile.html" class="btn btn-rounded btn-danger btn-sm">Ver Perfil</a>
                                     </div>
                                 </div>
                             </li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#"><i class="ti-user"></i> My Profile</a></li>
-                            <li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
+                            <li><a href="#"><i class="ti-user"></i> Perfil</a></li>
+                            <li><a href="#"><i class="ti-wallet"></i> Balance</a></li>
                             <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a routerLink="/dashboard/account-settings"><i class="ti-settings"></i> Account Setting</a></li>
+                            <li><a routerLink="/dashboard/account-settings"><i class="ti-settings"></i> Configuración</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a (click)="logout()"><i class="fa fa-power-off"></i>Cerrar Sección</a></li>
+                            <li><a (click)="logout()" style="cursor: pointer"><i class="fa fa-power-off" style="margin-right: 5px;"></i>Cerrar Sección</a></li>
                         </ul>
                     </div>
                 </li>

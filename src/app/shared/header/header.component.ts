@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { UsuarioService } from '../../services/usuario.service';
 
 @Component({
   selector: 'app-header',
@@ -9,12 +10,19 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private router:Router) { }
+  emailPerfil:string;
+  nombrePerfil:string;
+
+  constructor(private router:Router,
+              private usuarioService: UsuarioService) { 
+                this.emailPerfil = localStorage.getItem('email');
+                this.nombrePerfil = localStorage.getItem('nombre');
+              }
 
   ngOnInit(): void {
   }
   
   logout(){
-    this.router.navigateByUrl('login');
+    this.usuarioService.logout();
   }
 }
