@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginFormModel } from 'src/app/models/login.model';
 import Swal from 'sweetalert2';
 import { UsuarioService } from '../../services/usuario.service';
 declare var gapi:any;
@@ -14,7 +13,7 @@ declare var gapi:any;
 export class LoginComponent implements OnInit {
 
   public formSubmitted = false;
-
+  public auth2:any;
   public loginForm: FormGroup = new FormGroup({
     email: new FormControl(localStorage.getItem('email') || '', [Validators.required, Validators.email]),
     password: new FormControl ('', Validators.required),
@@ -22,7 +21,8 @@ export class LoginComponent implements OnInit {
   });
   
   constructor(private router:Router,
-              private usuarioService: UsuarioService) { }
+              private usuarioService: UsuarioService,
+              private ngZone:NgZone) { }
 
   ngOnInit(): void {
     this.renderButton();
@@ -74,12 +74,12 @@ export class LoginComponent implements OnInit {
   //   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
   // }
 
-  onSuccess(googleUser:any){
-    console.log('google perfil', googleUser.getBasicProfile());
-    var id_token = googleUser.getAuthResponse().id_token;
-    console.log('Token:',id_token);
+  // onSuccess(googleUser:any){
+  //   console.log('google perfil', googleUser.getBasicProfile());
+  //   var id_token = googleUser.getAuthResponse().id_token;
+  //   console.log('Token:',id_token);
     
-  }
+  // }
   renderButton(){
     gapi.signin2.render('my-signin2',{
       'scope': 'profile email',
@@ -87,8 +87,38 @@ export class LoginComponent implements OnInit {
       'height':50,
       'longtitle': true,
       'theme': 'dark',
-      'onsuccess': this.onSuccess
     });
+    this.startApp();
+  }
+
+  startApp() {
+    gapi.load('auth2', () => {
+      // Retrieve the singleton for the GoogleAuth library and set up the client.
+      this.auth2 = gapi.auth2.init({
+        client_id: '557293408583-huol63oiu3vsq1hh768jtoqh7bde7pgn.apps.googleusercontent.com',
+        cookiepolicy: 'single_host_origin',
+        // Request scopes in addition to 'profile' and 'email'
+        //scope: 'additional_scope'
+      });
+      this.attachSignin(document.getElementById('my-signin2'));
+    });
+  };
+
+  attachSignin(element:any) {
+
+    this.auth2.attachClickHandler(element, {},
+        (googleUser:any) => {
+              var id_token = googleUser.getAuthResponse().id_token;
+              this.usuarioService.loginGoogle(id_token).subscribe((res:any) => {
+                localStorage.setItem('token', res.token);
+                this.ngZone.run(() => {
+                  /*Navergar al Dashboard */
+                  this.router.navigateByUrl('/');
+                });
+              });
+        }, function(error) {
+          alert(JSON.stringify(error, undefined, 2));
+        });
   }
 
   signOut() {
