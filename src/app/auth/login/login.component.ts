@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   public formSubmitted = false;
   public auth2:any;
   public loginForm: FormGroup = new FormGroup({
-    email: new FormControl(localStorage.getItem('email') && localStorage.getItem('remember')  || '', [Validators.required, Validators.email]),
+    email: new FormControl(localStorage.getItem('email') || '', [Validators.required, Validators.email]),
     password: new FormControl ('', Validators.required),
     remember: new FormControl (localStorage.getItem('remember') || false )
   });
@@ -90,8 +90,8 @@ export class LoginComponent implements OnInit {
               var id_token = googleUser.getAuthResponse().id_token;
               this.usuarioService.loginGoogle(id_token).subscribe((res:any) => {
                 localStorage.setItem('token', res.token);
-                localStorage.setItem('email', googleUser.Ws.Ht);
-                localStorage.setItem('nombre', googleUser.Ws.Qe);
+                // localStorage.setItem('email', googleUser.Ws.Ht);
+                // localStorage.setItem('nombre', googleUser.Ws.Qe);
                 
                 this.ngZone.run(() => {
                   /*Navergar al Dashboard */

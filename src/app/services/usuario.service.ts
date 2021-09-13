@@ -6,6 +6,7 @@ import { LoginFormModel } from '../models/login.model';
 import { catchError, map, tap} from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
+import { Usuario } from '../models/usuario.model';
 declare var gapi:any;
 const base_url = environment.base_url;
 
@@ -14,6 +15,7 @@ const base_url = environment.base_url;
 })
 export class UsuarioService {
   auth2:any;
+  usuario:Usuario;
   constructor(private http: HttpClient,
               private router: Router,
               private ngZone:NgZone) {
@@ -55,6 +57,8 @@ export class UsuarioService {
       }
     }).pipe(
       tap( (res:any) => {
+        const {email, google, nombre, role, img, uid } = res.usuario;
+        this.usuario = new Usuario( nombre, email, '', img, google, role, uid)
         localStorage.setItem('token', res.token);
       }),map( resp => true),
       catchError(error => of(false))

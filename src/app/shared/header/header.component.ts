@@ -13,13 +13,18 @@ export class HeaderComponent implements OnInit {
   emailPerfil:string;
   nombrePerfil:string;
 
-  constructor(private router:Router,
-              private usuarioService: UsuarioService) { 
+  constructor(private usuarioService: UsuarioService) { 
                 this.emailPerfil = localStorage.getItem('email');
                 this.nombrePerfil = localStorage.getItem('nombre');
               }
 
   ngOnInit(): void {
+    if (this.emailPerfil === null) {
+      this.emailPerfil = 'ejemplo@gmail.com';
+    }
+    if (this.nombrePerfil === null) {
+      this.nombrePerfil = 'Perfil prueba';
+    }
   }
   
   logout(){
