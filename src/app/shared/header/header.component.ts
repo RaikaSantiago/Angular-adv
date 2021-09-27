@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Usuario } from 'src/app/models/usuario.model';
 import { UsuarioService } from '../../services/usuario.service';
 
 @Component({
@@ -9,22 +9,13 @@ import { UsuarioService } from '../../services/usuario.service';
   ]
 })
 export class HeaderComponent implements OnInit {
-
-  emailPerfil:string;
-  nombrePerfil:string;
-
+  user:Usuario;
   constructor(private usuarioService: UsuarioService) { 
-                this.emailPerfil = localStorage.getItem('email');
-                this.nombrePerfil = localStorage.getItem('nombre');
+                
               }
 
   ngOnInit(): void {
-    if (this.emailPerfil === null) {
-      this.emailPerfil = 'ejemplo@gmail.com';
-    }
-    if (this.nombrePerfil === null) {
-      this.nombrePerfil = 'Perfil prueba';
-    }
+    this.user = this.usuarioService.usuario;
   }
   
   logout(){

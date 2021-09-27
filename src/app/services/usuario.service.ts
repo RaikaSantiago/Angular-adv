@@ -6,7 +6,7 @@ import { LoginFormModel } from '../models/login.model';
 import { catchError, map, tap} from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
-import { Usuario } from '../models/usuario.model';
+import { Usuario, RegistroModel } from '../models/usuario.model';
 declare var gapi:any;
 const base_url = environment.base_url;
 
@@ -51,16 +51,19 @@ export class UsuarioService {
   validarToken(): Observable<boolean>{
     const token = localStorage.getItem('token') || '';
 
-   return this.http.get(`${ base_url }/login/renew`,{
+    return this.http.get(`${ base_url }/login/renew`,{
       headers: {
         'x-token': token
       }
     }).pipe(
-      tap( (res:any) => {
+      map( (res:RegistroModel) => {
         const {email, google, nombre, role, img, uid } = res.usuario;
-        this.usuario = new Usuario( nombre, email, '', img, google, role, uid)
+        if (res) {
+          this.usuario = new Usuario( nombre, email, '', img, google, role, uid);
+        }
         localStorage.setItem('token', res.token);
-      }),map( resp => true),
+        return true;
+      }),
       catchError(error => of(false))
     );
   }
