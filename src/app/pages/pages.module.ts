@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { AppRoutingModule } from '../app-routing.module';
 import { ComponentsModule } from '../components/components.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 import { ProgessComponent } from './progess/progess.component';
@@ -13,6 +14,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
+import { PerfilComponent } from './perfil/perfil.component';
 
 
 
@@ -25,12 +27,14 @@ import { RxjsComponent } from './rxjs/rxjs.component';
     AccountSettingsComponent,
     PromesasComponent,
     RxjsComponent,
+    PerfilComponent,
   ],
   imports: [
     CommonModule,
     SharedModule,
     AppRoutingModule,
     ComponentsModule,
+    ReactiveFormsModule
     
  
   ],
