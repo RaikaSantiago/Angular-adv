@@ -3,10 +3,11 @@ import { RegisterFormModel } from '../models/register.model';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { LoginFormModel } from '../models/login.model';
-import { catchError, map, tap} from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { Usuario, RegistroModel } from '../models/usuario.model';
+import { CargarUsuarioModel } from '../models/cargar-usuarios.model';
 declare var gapi:any;
 const base_url = environment.base_url;
 
@@ -52,17 +53,21 @@ export class UsuarioService {
     return localStorage.getItem('token') || '';
   }
 
+  get headers(){
+    return {
+      headers: {
+        'x-token': this.token
+      }
+    }
+  }
+
   get uid():string {
     return this.usuario.uid || '';
   }
 
   validarToken(): Observable<boolean>{
 
-    return this.http.get(`${ base_url }/login/renew`,{
-      headers: {
-        'x-token': this.token
-      }
-    }).pipe(
+    return this.http.get(`${ base_url }/login/renew`,this.headers).pipe(
       map( (res:RegistroModel) => {
         const {email, google, nombre, role, img, uid } = res.usuario;
         if (res) {
@@ -83,15 +88,10 @@ export class UsuarioService {
   actualizarPerfil(data: { email: string , nombre: string, role: string}){
 
     data = {
-       ...data,
-       role: this.usuario.role
-    };
-
-    return this.http.put(`${ base_url }/usuarios/${this.uid}`,data, {
-      headers: {
-        'x-token': this.token
-      }
-    });
+      ...data,
+      role: this.usuario.role
+    }
+    return this.http.put(`${ base_url }/usuarios/${this.uid}`,data, this.headers);
   }
 
   login( formData: LoginFormModel){
@@ -103,4 +103,30 @@ export class UsuarioService {
 
     return this.http.post(`${ base_url }/login/google`,{ token });
   }
+
+  cargarUsuarios(desde:number = 0){
+    const url = `${base_url}/usuarios?desde=${desde}`;
+    return this.http.get<CargarUsuarioModel>(url, this.headers).pipe( 
+      map(
+      resp => {
+        const usuarios = resp.usuarios.map( 
+          user => new Usuario(user.nombre, user.email, '',user.img, user.google, user.role, user.uid)
+        );
+        return {
+          total: resp.total,
+          usuarios
+        };
+      }
+    ))
+  }
+
+  eliminarUsuarios(uid:string){
+    const url = `${base_url}/usuarios/${uid}`; 
+    return this.http.delete(url, this.headers);
+  }
+
+  actualizarUsuario(user: Usuario){
+    return this.http.put(`${ base_url }/usuarios/${user.uid}`,user, this.headers);
+  }
+
 }
