@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HospitalesService } from '../../../services/hospitales.service';
 
 @Component({
   selector: 'app-hospitales',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HospitalesComponent implements OnInit {
 
-  constructor() { }
+  constructor(private hospitalesService: HospitalesService) { }
 
-  ngOnInit(): void {
-  }
+  // async ngOnInit(){
+  //    await this.consultaHospitales();
+  // }
 
+  // async consultaHospitales(){
+  //   await this.hospitalesService.cargarHospitales().toPromise().then(res => {
+  //     console.log('res',res);
+      
+  //   });
+  // }
 }
