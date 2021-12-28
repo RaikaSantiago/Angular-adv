@@ -26,9 +26,10 @@ export class HospitalesService {
 
   cargarHospitales(){
 
-    // const url = `${base_url}/hospitales`;
-    // return this.http.get<HospitalModel[]>(url, this.headers).pipe( map(
-    //   (resp:{ok:boolean, hospitales: }) => resp.hospitales
-    // ));
+    const url = `${base_url}/hospitales`;
+    return this.http.get(url, this.headers).pipe( map(
+      (resp:{ok:boolean, hospital:HospitalModel[] }) => resp.hospital
+      
+    ));
   }
 }

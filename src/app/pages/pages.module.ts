@@ -5,6 +5,8 @@ import { SharedModule } from '../shared/shared.module';
 import { AppRoutingModule } from '../app-routing.module';
 import { ComponentsModule } from '../components/components.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+/*Modules */
+import { PipesModule } from '../pipes/pipes.module';
 
 
 import { ProgessComponent } from './progess/progess.component';
@@ -41,7 +43,8 @@ import { MedicosComponent } from './mantenimientos/medicos/medicos.component';
     AppRoutingModule,
     ComponentsModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    PipesModule
     
  
   ],
