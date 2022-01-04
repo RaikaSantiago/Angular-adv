@@ -20,26 +20,39 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Hospitales</h4>
-                <h6 class="card-subtitle">Hospitales registrados en mi aplicación</h6>
+                <div class="row">
+                    <div class="col-6">
+                        <h4 class="card-title">Hospitales ({{hospital.length}})</h4>
+                        <h6 class="card-subtitle">Hospitales registrados en mi aplicación</h6>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-right">
+                            <button (click)="abrirModal()" class="btn btn-primary"> 
+                                 <i class="fa fa-hospital-o"> Crear Hospital</i> 
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
                                 <th>Foto</th>
                                 <th>Nombre</th>
-                                <th class="text-nowrap">Acciones</th>
+                                <th class="text-center">Acciones</th>
                             </tr>
                         </thead>
                         <tbody *ngFor="let hosp of hospital">
                             <tr>
-                                <td>{{hosp.img | imagen: 'hospitales'}}</td>
+                                <td>
+                                    <img [src]="hosp.img | imagen: 'hospitales'" class="avatar cursor" [alt]="hosp.nombre" (click)="abrirModalHospitales(hosp)" />
+                                </td>
                                 <td>
                                     <input type="text" class="form-control" [(ngModel)]="hosp.nombre" placeholder="Nombre de Hospital">
                                 </td>
                                 <td class="text-nowrap text-center">
-                                    <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                    <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="fa fa-close text-danger"></i> </a>
+                                    <a data-toggle="tooltip" data-original-title="Editar" (click)="guardarCambios(hosp)"> <i class="fa fa-pencil text-inverse m-r-10 cursor"></i> </a>
+                                    <a data-toggle="tooltip" data-original-title="Borrar" (click)="eliminarRegistros(hosp)"> <i class="fa fa-close text-danger cursor"></i> </a>
                                 </td>
                             </tr>
                         </tbody>

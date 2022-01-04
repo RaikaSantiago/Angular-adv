@@ -39,7 +39,6 @@ export class ModalImagenComponent implements OnInit {
     reader.onloadend = () => {
       this.imgTemp = reader.result;
       this.cargando = false;
-      console.log(reader.result);
     }
   }
 

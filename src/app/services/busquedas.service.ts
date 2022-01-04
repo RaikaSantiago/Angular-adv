@@ -27,6 +27,11 @@ export class BusquedasService {
     return resultados.map( user => new Usuario(user.nombre, user.email, '',user.img, user.google, user.role, user.uid))
   }
 
+  busquedaGlobal(termino:string){
+    const url = `${base_url}/todo/${termino}`;
+    return this.http.get(url, this.headers);
+  }
+
   busqueda( tipo:'usuarios'| 'medicos'| 'hospitales', termino:string = ''){
     const url = `${base_url}/todo/coleccion/${tipo}/${termino}`;
     return this.http.get(url, this.headers).pipe(
