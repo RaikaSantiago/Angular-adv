@@ -76,7 +76,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       return this.usuarios = this.usuariosTemp;
     }
 
-    await this.busquedaService.busqueda('usuarios',termino).toPromise().then(resultados => {
+    await this.busquedaService.busqueda('usuarios',termino).toPromise().then((resultados:Usuario[]) => {
 
       if (resultados.length > 0) {
         this.usuarios = resultados;

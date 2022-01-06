@@ -7,7 +7,7 @@
         </div>
     </div>
 </div>
-<div class="row animated fadeIn fast">
+<div class="row animated fadeIn fast" *ngIf="cargando">
     <div class="col-12">
         <div class="alert alert-info text-center">
             <h4 class="alert-heading"> Cargando</h4>
@@ -26,19 +26,17 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>Avatar</th>
-                                <th>Correo</th>
+                                <th class="w50">Foto</th>
                                 <th>Nombre</th>
-                                <th>Role</th>
-                                <th>Auth</th>
-                                <th class="text-nowrap">Acciones</th>
+                                <th>Hospital</th>
+                                <th class="w100 text-nowrap">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Lunar probe project</td>
-                                <td>Lunar probe project</td>
-                                <td>Lunar probe project</td>
+                            <tr *ngFor="let med of medicos">
+                                <td>
+                                    <img [src]="med.img | imagen: 'medicos'" class="avatar cursor" [alt]="med.nombre" (click)="abrirModalMedicos(med)" />
+                                </td>
                                 <td>Lunar probe project</td>
                                 <td>Lunar probe project</td>
                                 <td class="text-nowrap">

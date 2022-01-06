@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { ModalImagenService } from '../../../services/modal-imagen.service';
 import { Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
+import { BusquedasService } from '../../../services/busquedas.service';
 
 @Component({
   selector: 'app-hospitales',
@@ -20,7 +21,8 @@ export class HospitalesComponent implements OnInit, OnDestroy {
   public imagenSubs:Subscription;
   
   constructor(private hospitalesService: HospitalesService,
-              private modalImagenService: ModalImagenService) { }
+              private modalImagenService: ModalImagenService,
+              private busquedasService: BusquedasService) { }
 
   async ngOnInit(){
      await this.consultaHospitales();
@@ -126,5 +128,16 @@ export class HospitalesComponent implements OnInit, OnDestroy {
 
   async abrirModalHospitales(hospital:HospitalModel){
     this.modalImagenService.abrirModal('hospitales', hospital._id,hospital.img);
+  }
+
+  buscar(termino:string){
+
+    if (termino.length === 0) {
+      return this.consultaHospitales();
+    }
+
+    this.busquedasService.busqueda('hospitales',termino).toPromise().then(resp => {
+      this.hospital = resp;
+    })
   }
 }
