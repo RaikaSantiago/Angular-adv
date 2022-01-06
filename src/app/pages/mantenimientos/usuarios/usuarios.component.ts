@@ -34,7 +34,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   async ngOnInit() {
 
     await this.consultarUsuarios();
-    this.imagenSubs = this.modalImagenService.nuevaImagen.pipe( delay(100)).subscribe(img => this.consultarUsuarios());
+    this.imagenSubs = this.modalImagenService.nuevaImagen.pipe( delay(200)).subscribe(img => this.consultarUsuarios());
   }
 
   async consultarUsuarios(){

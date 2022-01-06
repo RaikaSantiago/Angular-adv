@@ -33,12 +33,11 @@ const routes: Routes = [
             { path: 'perfil', component: PerfilComponent, data:{titulo: 'Perfil de Usuario'}},
             { path: 'buscar/:termino', component: BusquedasComponent, data:{titulo: 'Busquedas'}},
 
-
             /*Mantenimientos*/
             { path: 'usuarios', component: UsuariosComponent, data:{titulo: 'Usuarios de Aplicación'}},
             { path: 'hospitales', component: HospitalesComponent, data:{titulo: 'Hospitales de Aplicación'}},
             { path: 'medicos', component: MedicosComponent, data:{titulo: 'Medicos de Aplicación'}},
-            { path: 'medicos/:id', component: MedicoComponent, data:{titulo: 'Medicos de Aplicación'}},
+            { path: 'medico/:id', component: MedicoComponent, data:{titulo: 'Medico de Aplicación'}},
         ]
     },  
 ];

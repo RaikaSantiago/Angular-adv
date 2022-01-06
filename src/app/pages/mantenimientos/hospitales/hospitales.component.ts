@@ -26,7 +26,7 @@ export class HospitalesComponent implements OnInit, OnDestroy {
 
   async ngOnInit(){
      await this.consultaHospitales();
-     this.imagenSubs = this.modalImagenService.nuevaImagen.pipe( delay(100)).subscribe( img => this.consultaHospitales());
+     this.imagenSubs = this.modalImagenService.nuevaImagen.pipe( delay(200)).subscribe( img => this.consultaHospitales());
   }
 
   ngOnDestroy(): void {
@@ -136,7 +136,7 @@ export class HospitalesComponent implements OnInit, OnDestroy {
       return this.consultaHospitales();
     }
 
-    this.busquedasService.busqueda('hospitales',termino).toPromise().then(resp => {
+    this.busquedasService.busqueda('hospitales',termino).toPromise().then((resp:HospitalModel[]) => {
       this.hospital = resp;
     })
   }

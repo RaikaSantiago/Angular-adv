@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Usuario } from 'src/app/models/usuario.model';
 import { HospitalModel } from '../models/hospital.model';
+import { MedicosModel } from '../models/medico.model';
 const base_url = environment.base_url;
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,10 @@ export class BusquedasService {
     return resultados;
   }
 
+  private trasnsformarMedicos( resultados:any[]):MedicosModel[]{
+    return resultados;
+  }
+
   busquedaGlobal(termino:string){
     const url = `${base_url}/todo/${termino}`;
     return this.http.get(url, this.headers);
@@ -48,8 +53,7 @@ export class BusquedasService {
           case 'hospitales':
             return this.trasnsformarHospitales(resp.resultados);
           case 'medicos':
-            
-            break;
+            return this.trasnsformarMedicos(resp.resultados);
           default:
             return[];
         }
