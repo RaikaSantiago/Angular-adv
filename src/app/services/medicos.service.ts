@@ -33,18 +33,23 @@ export class MedicosService {
     ));
   }
 
-  crearMedicos(nombre:string, _idHospital:string){
+  crearMedicos(nombre:string, hospital:string){
     const url = `${base_url}/medicos`;
-    return this.http.post(url, { nombre, _idHospital }, this.headers);
+    return this.http.post(url, { nombre, hospital }, this.headers);
   }
 
-  actualizarMedicos(_id:string, nombre:string, _idHospital:string){
+  actualizarMedicos(_id:string, nombre:string, hospital:string){
     const url = `${base_url}/medicos/${_id}`;
-    return this.http.put(url, { nombre, _idHospital }, this.headers);
+    return this.http.put(url, { nombre, hospital }, this.headers);
   }
 
   eliminarMedicos(_id:string){
     const url = `${base_url}/medicos/${_id}`;
     return this.http.delete(url, this.headers);
+  }
+
+  consultaByIdMedico(id:string){
+    const url = `${base_url}/medicos/${id}`;
+    return this.http.get(url, this.headers);
   }
 }
