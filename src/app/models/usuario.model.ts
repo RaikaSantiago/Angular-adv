@@ -25,12 +25,26 @@ export  class Usuario {
     }
 }
 
+interface SubMenu {
+  titulo: string, 
+  url: string 
+}
+
+interface Menu {
+
+    titulo: string,
+    icon: string,
+    submenu: SubMenu []
+
+}
+
 export class RegistroModel {
 
     constructor(
         public ok: boolean,
         public token: string,
         public usuario: Usuario,
+        public menu: Menu []
     ){
 
     }

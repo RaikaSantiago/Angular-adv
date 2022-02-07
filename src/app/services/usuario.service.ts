@@ -42,6 +42,7 @@ export class UsuarioService {
 
   logout(){
     localStorage.removeItem('token');
+    localStorage.removeItem('menu');
     this.auth2.signOut().then(() => {
       this.ngZone.run(() => {
         this.router.navigateByUrl('/login');
@@ -74,6 +75,7 @@ export class UsuarioService {
           this.usuario = new Usuario( nombre, email, '', img, google, role, uid);
         }
         localStorage.setItem('token', res.token);
+        localStorage.setItem('menu', JSON.stringify(res.menu));
         return true;
       }),
       catchError(error => of(false))

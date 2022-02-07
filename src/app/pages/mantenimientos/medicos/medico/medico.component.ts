@@ -18,6 +18,7 @@ export class MedicoComponent implements OnInit {
   hospitales: HospitalModel[] = [];
   hospitalSelect: HospitalModel;
   public medicoSelect:any;
+  id:string;
 
   constructor(private fb:FormBuilder,
               private hospitalService: HospitalesService,
@@ -28,14 +29,14 @@ export class MedicoComponent implements OnInit {
               }
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe( params => {
-      console.log(params);
-      
-      if (params.id !== 'nuevo') {
-        this.consultaByIdMedico(params.id);
+    this.form();
+    this.activatedRoute.params.subscribe( ({id}) => {
+      this.id = id;
+      if (id !== 'nuevo') {
+        this.consultaByIdMedico(id);
       }
     })
-    this.form();
+    
     this.consultarHospitales();
     this.cambioHospital();
 
@@ -64,21 +65,35 @@ export class MedicoComponent implements OnInit {
   }
 
   ngSubmit(){
-    this.medicosService.crearMedicos(this.medicoForm.value.nombre, this.medicoForm.value.hospital).subscribe((resp:any) => {
-      Swal.fire(
-        'Creado', 
-        resp.medicos.nombre, 
-        'success'
-      )
-      this.router.navigateByUrl(`/dashboard/medico/${resp.medicos._id}`)
-    })
+
+    if (this.id === 'nuevo') { 
+      this.medicosService.crearMedicos(this.medicoForm.value.nombre, this.medicoForm.value.hospital).subscribe((resp:any) => {
+        Swal.fire(
+          'Creado', 
+          resp.medicos.nombre, 
+          'success'
+        )
+        this.router.navigateByUrl(`/dashboard/medico/${resp.medicos._id}`)
+      })
+    }else{
+      this.medicosService.actualizarMedicos(this.id, this.medicoForm.value.nombre,this.medicoForm.value.hospital).subscribe((res:any )=> {
+        Swal.fire(
+          'Actualizado', 
+          res.medicos.nombre, 
+          'success'
+        )
+        this.router.navigateByUrl(`/dashboard/medico/${res.medicos._id}`)
+      })
+    }
   }
 
   consultaByIdMedico(id:string){
     this.medicosService.consultaByIdMedico(id).subscribe((res:any) => {
       this.medicoSelect = res.medico;
- 
-      
+      this.medicoForm.patchValue({
+        nombre: this.medicoSelect.nombre,
+        hospital: this.medicoSelect.hospital._id
+      })
     })
   }
 

@@ -26,7 +26,6 @@ export class BusquedasComponent implements OnInit {
 
   busquedaGlobal(termino:string){
     this.busquedaService.busquedaGlobal(termino).subscribe((resp:any) => {
-        console.log("RESPUESTA", resp);
         this.usuarios = resp.usuarios;
         this.medicos = resp.medicos;
         this.hospital = resp.hospital;

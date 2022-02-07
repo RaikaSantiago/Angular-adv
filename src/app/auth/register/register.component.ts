@@ -62,6 +62,7 @@ export class RegisterComponent implements OnInit {
         });
           localStorage.setItem('token', res.token);
           localStorage.setItem('uid',res.usuario.uid);
+          localStorage.setItem('menu', JSON.stringify(res.menu));
           this.router.navigateByUrl('/');
       }
       
