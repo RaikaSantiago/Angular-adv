@@ -22,6 +22,8 @@ import { HospitalesComponent } from './mantenimientos/hospitales/hospitales.comp
 import { MedicosComponent } from './mantenimientos/medicos/medicos.component';
 import { BusquedasComponent } from './busquedas/busquedas.component';
 import { MedicoComponent } from './mantenimientos/medicos/medico/medico.component';
+import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
+
 
 
 
@@ -48,7 +50,8 @@ import { MedicoComponent } from './mantenimientos/medicos/medico/medico.componen
     ComponentsModule,
     ReactiveFormsModule,
     FormsModule,
-    PipesModule
+    PipesModule,
+    PdfJsViewerModule
     
  
   ],

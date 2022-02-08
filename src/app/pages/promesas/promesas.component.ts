@@ -7,11 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PromesasComponent implements OnInit {
 
+  src:string = "https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf";
+
   constructor() { }
 
   ngOnInit(): void {
     this.getUsuarios().then( users => {
-      
       
     });
 

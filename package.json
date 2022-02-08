@@ -21,6 +21,8 @@
     "@angular/router": "~11.2.5",
     "chart.js": "^2.9.3",
     "ng2-charts": "^2.4.3",
+    "ng2-pdfjs-viewer": "^6.0.2",
+    "pdfjs-dist": "^2.5.207",
     "rxjs": "~6.6.0",
     "sweetalert2": "^11.1.4",
     "tslib": "^2.0.0",
