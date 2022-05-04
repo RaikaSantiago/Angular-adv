@@ -8,9 +8,6 @@ import { AuthModule } from './auth/auth.module';
 import { AppComponent } from './app.component';
 import { NopagefoundComponent } from './nopagefound/nopagefound.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { InterceptorService } from './services/interceptor.service';
-
-
 
 
 @NgModule({
@@ -26,11 +23,7 @@ import { InterceptorService } from './services/interceptor.service';
     AuthModule
   ],
   providers: [
-    {
-      provide:HTTP_INTERCEPTORS,
-      useClass: InterceptorService,
-      multi: true
-    }
+
   ],
   bootstrap: [AppComponent]
 })
