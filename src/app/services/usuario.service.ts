@@ -43,6 +43,7 @@ export class UsuarioService {
   logout(){
     localStorage.removeItem('token');
     localStorage.removeItem('menu');
+    localStorage.removeItem('_expiredTime');
     this.auth2.signOut().then(() => {
       this.ngZone.run(() => {
         this.router.navigateByUrl('/login');
